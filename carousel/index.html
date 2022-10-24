@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .carousel {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .carousel>ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .img_items {
+            position: absolute;
+            inset: 0;
+        }
+
+        .slide>img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .slide[data-active] {
+            opacity: 1;
+            z-index: 1;
+            transition-delay: 0ms;
+        }
+
+        .slide {
+            opacity: 0;
+            inset: 0;
+            position: absolute;
+        }
+
+        .carousel-button {
+            position: absolute;
+            border: none;
+            background: none;
+            font-size: 4rem;
+            z-index: 2;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            cursor: pointer;
+            padding: 0 .5rem;
+            background-color: rgba(0, 0, 0, .1);
+        }
+
+        .carousel-button:hover,
+        .carousel-button:focus {
+            color: #fff;
+            background-color: rgba(0, 0, 0, .2);
+
+        }
+
+        .carousel-button:focus {
+            outline: 1px solid black;
+        }
+
+        .carousel-button.prev {
+            left: 1rem;
+        }
+
+        .carousel-button.next {
+            right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel" data-carousel>
+        <button class="btn carousel-button prev" data-carousel-button="prev">&#10092;</button>
+        <button class="btn carousel-button next" data-carousel-button="next">&#10093;</button>
+        <ul data-slide>
+            <li class="slide" data-active>
+                <img src="https://wallpaperaccess.com/full/19602.jpg" alt="earth_img">
+            </li>
+            <li class="slide">
+                <img src="https://wallpaperaccess.com/full/19677.jpg" alt="earth_img">
+            </li>
+            <li class="slide">
+              <img src="https://www.pixelstalk.net/wp-content/uploads/2016/11/Backgrounds-Earth-From-Space.jpg"   alt="earth_img">
+            </li>
+    </div>
+    </div>
+    <script>
+        let buttons = document.querySelectorAll('[data-carousel-button]')
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const offset = button.dataset.carouselButton === 'next' ? 1 : -1
+                
+                const slides = button.closest('[data-carousel]').querySelector('[data-slide]')
+
+                const activeSlide = slides.querySelector('[data-active]')
+                let newIndex = [...slides.children].indexOf(activeSlide) + offset
+                console.log(...slides.children)
+                console.log(newIndex)
+                
+                if (newIndex < 0) newIndex = slides.children.length - 1
+                if (newIndex >= slides.children.length) newIndex = 0
+                slides.children[newIndex].dataset.active = true
+                delete activeSlide.dataset.active
+            })
+        })
+    </script>
+</body>
+
+</html>
